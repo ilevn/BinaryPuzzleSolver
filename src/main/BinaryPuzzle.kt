@@ -44,7 +44,9 @@ class BinaryPuzzle(filePath: String?) {
 
 
     override fun toString() = board.joinToString("\n")
-    { it -> it.toList().map { it.sym }.joinToString(" ") }
+    { it ->
+        it.toList().map { it.sym }.joinToString(" ")
+    }
 
     fun getTile(row: Int, col: Int): Symbol {
         return board[row][col].map(parent?.getTile(row, col))

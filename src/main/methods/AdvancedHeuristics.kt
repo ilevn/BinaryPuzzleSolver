@@ -125,9 +125,10 @@ fun ruleFillAnyDuplicates(bp: BinaryPuzzle): BinaryPuzzle? {
     return null
 }
 
+val rules = arrayListOf(::ruleThirdOfAKind, ::ruleFillRows, ::ruleFillAnyDuplicates, ::backtrack)
 
 fun solve(bp: BinaryPuzzle): BinaryPuzzle? {
-    val rules = arrayOf(::ruleThirdOfAKind, ::ruleFillRows, ::ruleFillAnyDuplicates, ::backtrack)
+
     var toCheck = bp
 
     while (true) {
