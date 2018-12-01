@@ -13,15 +13,9 @@ fun backtrack(bp: BinaryPuzzle): BinaryPuzzle? {
         val newBp = queue.poll()
 
         when {
-            newBp.isSolved() -> {
-                println("Solved BinaryPuzzle!")
-                return newBp
-            }
+            newBp.isSolved() -> return newBp
             !newBp.isValid() -> continue@loop
         }
-
-        println("Now testing")
-        println(newBp.toString())
 
         fun queueUp() {
             for (row in 0 until newBp.size) {

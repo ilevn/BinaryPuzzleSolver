@@ -3,7 +3,8 @@ package main
 import main.methods.solve
 
 fun main(args: Array<String>) {
-    val puzzle = BinaryPuzzle("puzzles/very-hard/001.takuzu")
+    val file = readLine() ?: "examples/very_hard.bp"
+    val puzzle = BinaryPuzzle(file)
 
     val start = System.currentTimeMillis()
     val solve = solve(puzzle)

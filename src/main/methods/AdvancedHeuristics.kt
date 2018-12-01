@@ -7,10 +7,12 @@ data class Offset(val firstRow: Int, val firstCol: Int, val secondRow: Int, val 
 
 fun ruleThirdOfAKind(bp: BinaryPuzzle): BinaryPuzzle? {
     val offsets = arrayOf(
+        // Check for two identical tiles in a row.
         Offset(0, 1, 0, 2),
         Offset(0, -1, 0, -2),
         Offset(1, 0, 2, 0),
         Offset(-1, 0, -2, 0),
+        // Check for two with an unset tile inbetween them.
         Offset(0, 1, 0, -1),
         Offset(1, 0, -1, 0)
     )
@@ -23,19 +25,15 @@ fun ruleThirdOfAKind(bp: BinaryPuzzle): BinaryPuzzle? {
                     val firstOffset = bp.getTile(row + offset.firstRow, col + offset.firstCol)
                     val secondOffset = bp.getTile(row + offset.secondRow, col + offset.secondCol)
 
+                    // Invert tile if setting an additional identical one would violate the sandwich rule.
                     if (firstOffset != Symbol.Unset && secondOffset != Symbol.Unset && firstOffset == secondOffset) {
                         return bp.setTile(row, col, firstOffset.invert())
                     }
                 } catch (_: ArrayIndexOutOfBoundsException) {
                     continue
                 }
-
-
             }
-
-
         }
-
     }
     return null
 }
@@ -47,6 +45,7 @@ fun ruleFillRows(bp: BinaryPuzzle): BinaryPuzzle? {
 
                 val tile = bp.getTileArray(pair.first, pair.second)
 
+                // Fill rows that have all of our needed tiles for one value but are missing the other.
                 if (tile.count { it == value } == bp.size / 2) {
                     if (tile.count { it == value.invert() } < bp.size / 2) {
                         return bp.setTile(pair.first, pair.second, value.invert())
@@ -59,6 +58,8 @@ fun ruleFillRows(bp: BinaryPuzzle): BinaryPuzzle? {
 }
 
 fun generatePermutations(tiles: Array<Symbol>): List<Array<Symbol>> {
+    /* Recursively fills unset tiles with Zeros and Ones */
+
     val perms = mutableListOf<Array<Symbol>>()
 
     if (tiles.isEmpty()) {
@@ -94,13 +95,14 @@ fun ruleFillAnyDuplicates(bp: BinaryPuzzle): BinaryPuzzle? {
             val current = resolver(toCheck, index)
             if (current.all { it != Symbol.Unset }) continue
 
-            // Generate possibilites
+            // Generate possibilities
             val possibilities = ArrayList<Array<Symbol>>()
             for (option in generatePermutations(current).toTypedArray()) {
                 if (
                     option !in completedTiles
                     && option.count { it == Symbol.Zero } == bp.size / 2
                     && option.count { it == Symbol.One } == bp.size / 2
+                    // Dirty but it works.
                     && !option.containsTriplet("000") && !option.containsTriplet("111")
                 ) {
 
@@ -108,6 +110,7 @@ fun ruleFillAnyDuplicates(bp: BinaryPuzzle): BinaryPuzzle? {
                 }
             }
             if (possibilities.size == 1) {
+                // Set new tiles if we only have one possibility.
                 for ((secondIndex, value) in possibilities.first().withIndex()) {
                     toSet = if (toCheck == "row") {
                         toSet.setTile(index, secondIndex, value)

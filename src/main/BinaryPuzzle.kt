@@ -2,6 +2,8 @@ package main
 
 import main.helpers.Symbol
 import java.io.File
+import java.io.FileNotFoundException
+import kotlin.system.exitProcess
 
 
 class BinaryPuzzle(filePath: String?) {
@@ -11,18 +13,24 @@ class BinaryPuzzle(filePath: String?) {
     private var parent: BinaryPuzzle? = null
 
     constructor(parent: BinaryPuzzle) : this(filePath = null) {
+        // Allow for deep copies of parent nodes.
         this.parent = parent
         this.board = parent.board.deepCopy()
         this.size = parent.size
-
     }
 
     private fun Array<Array<Symbol>>.deepCopy() = Array(size) { get(it).clone() }
 
     init {
         if (filePath != null) {
-            lines = File(filePath).readLines()
-            board = Array(lines.size) { _ -> Array(lines.size) { Symbol.Unset } }
+            try {
+                lines = File(filePath).readLines()
+            } catch (e: FileNotFoundException) {
+                println("Could not find puzzle file.")
+                exitProcess(1)
+            }
+
+            board = Array(lines.size) { Array(lines.size) { Symbol.Unset } }
 
             lines.forEachIndexed { row, s ->
                 s.forEachIndexed { col, c ->
@@ -35,11 +43,8 @@ class BinaryPuzzle(filePath: String?) {
     }
 
 
-    override fun toString() = board.joinToString("\n") { it ->
-        it.toList().map {
-            it.sym
-        }.joinToString(" ")
-    }
+    override fun toString() = board.joinToString("\n")
+    { it -> it.toList().map { it.sym }.joinToString(" ") }
 
     fun getTile(row: Int, col: Int): Symbol {
         return board[row][col].map(parent?.getTile(row, col))
@@ -49,11 +54,12 @@ class BinaryPuzzle(filePath: String?) {
         return when {
             row != null -> (0 until size).map { getTile(row, it) }.toTypedArray()
             col != null -> (0 until size).map { getTile(it, col) }.toTypedArray()
-            else -> throw Exception("Could not get tile")
+            else -> throw Exception("Could not get tile.")
         }
     }
 
     fun setTile(row: Int? = null, col: Int? = null, value: Symbol): BinaryPuzzle {
+        // Duplicate parent node.
         val child = BinaryPuzzle(this)
 
         when {
@@ -123,9 +129,10 @@ class BinaryPuzzle(filePath: String?) {
         for (i in 0 until size) {
             for (j in 0..i) {
                 if (getTileArray(row = i).distinct().size == 1
-                        && getTileArray(col = i).distinct().size == 1
-                        && (getTileArray(row = i).contentEquals(getTileArray(row = j))
-                                || getTileArray(col = i).contentEquals(getTileArray(col = j))))
+                    && getTileArray(col = i).distinct().size == 1
+                    && (getTileArray(row = i).contentEquals(getTileArray(row = j))
+                            || getTileArray(col = i).contentEquals(getTileArray(col = j)))
+                )
                     return false
 
             }
