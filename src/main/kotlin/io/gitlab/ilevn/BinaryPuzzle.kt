@@ -3,6 +3,7 @@ package io.gitlab.ilevn
 import io.gitlab.ilevn.helpers.Symbol
 import java.io.File
 import java.io.FileNotFoundException
+import kotlin.math.pow
 import kotlin.system.exitProcess
 
 
@@ -39,9 +40,12 @@ class BinaryPuzzle(filePath: String?) {
                 size = lines.size
 
             }
+            println("${getUnsetTiles()} unset tiles with ${(2.0.pow(getUnsetTiles())).toBigDecimal()} possibilities\n")
         }
     }
 
+    // For debugging purposes.
+    private fun getUnsetTiles(): Int = board.flatten().count { it == Symbol.Unset }
 
     override fun toString() = board.joinToString("\n") {
         it.toList().map { c -> c.sym }.joinToString(" ")
@@ -92,7 +96,7 @@ class BinaryPuzzle(filePath: String?) {
         return true
     }
 
-    private fun inBounds(check: Int) = board.size - 1 < check && check > 0
+    private fun inBounds(check: Int) = check < board.size - 1 && check > 0
 
     private fun rowEqual(row: Int, col: Int): Boolean {
         if (!inBounds(row)) return false

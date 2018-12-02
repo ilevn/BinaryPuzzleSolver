@@ -2,7 +2,6 @@ package io.gitlab.ilevn.methods
 
 import io.gitlab.ilevn.BinaryPuzzle
 import io.gitlab.ilevn.helpers.Symbol
-
 import java.util.*
 
 fun backtrack(bp: BinaryPuzzle): BinaryPuzzle? {

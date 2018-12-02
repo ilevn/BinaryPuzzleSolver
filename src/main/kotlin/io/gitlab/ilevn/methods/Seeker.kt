@@ -38,7 +38,7 @@ fun solver(bp: BinaryPuzzle): BinaryPuzzle? {
         if (newBp.isSolved()) return newBp
 
         fun queueUp() {
-            //println("Guessing one")
+            //println("Currently trying to guess one tile")
             for (row in 0 until newBp.size) {
                 for (col in 0 until newBp.size) {
                     if (newBp.getTile(row, col) == Symbol.Unset) {
