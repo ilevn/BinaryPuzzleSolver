@@ -1,7 +1,7 @@
-package main.methods
+package io.gitlab.ilevn.methods
 
-import main.BinaryPuzzle
-import main.helpers.Symbol
+import io.gitlab.ilevn.BinaryPuzzle
+import io.gitlab.ilevn.helpers.Symbol
 
 import java.util.*
 

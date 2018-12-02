@@ -1,9 +1,8 @@
-package test
+package io.gitlab.ilevn
 
-import main.BinaryPuzzle
-import main.helpers.Symbol
-import main.methods.solver
-import org.junit.jupiter.api.Test
+import io.gitlab.ilevn.helpers.Symbol
+import io.gitlab.ilevn.methods.solver
+import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
