@@ -5,8 +5,8 @@ import main.methods.solve
 import main.methods.solver
 
 fun main(args: Array<String>) {
-    print("Select puzzle to solve [examples/very_hard.bp]: ")
-    val file = readLine() ?: "examples/001.takuzu"
+    print("Select puzzle to solve [examples/very_easy.bp]: ")
+    val file = readLine() ?: "examples/very_easy.bp"
     val puzzle = BinaryPuzzle(file)
 
     val strategy = when (args.getOrNull(0)) {

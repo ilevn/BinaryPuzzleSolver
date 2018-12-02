@@ -24,7 +24,7 @@ fun solver(bp: BinaryPuzzle): BinaryPuzzle? {
 
             for_@
             for (rule in rules) {
-                println("Currently trying ${rule.name}")
+                //println("Currently trying ${rule.name}")
                 val currentBp = rule(newBp)
 
                 if (currentBp != null) {
@@ -38,7 +38,7 @@ fun solver(bp: BinaryPuzzle): BinaryPuzzle? {
         if (newBp.isSolved()) return newBp
 
         fun queueUp() {
-            println("Guessing one")
+            //println("Guessing one")
             for (row in 0 until newBp.size) {
                 for (col in 0 until newBp.size) {
                     if (newBp.getTile(row, col) == Symbol.Unset) {
