@@ -43,20 +43,21 @@ class BinaryPuzzle(filePath: String?) {
     }
 
 
-    override fun toString() = board.joinToString("\n")
-    { it ->
-        it.toList().map { it.sym }.joinToString(" ")
+    override fun toString() = board.joinToString("\n") {
+        it.toList().map { c -> c.sym }.joinToString(" ")
     }
 
     fun getTile(row: Int, col: Int): Symbol {
         return board[row][col].map(parent?.getTile(row, col))
     }
 
+    class InvalidArg(message: String) : Exception(message)
+
     fun getTileArray(row: Int? = null, col: Int? = null): Array<Symbol> {
         return when {
             row != null -> (0 until size).map { getTile(row, it) }.toTypedArray()
             col != null -> (0 until size).map { getTile(it, col) }.toTypedArray()
-            else -> throw Exception("Could not get tile.")
+            else -> throw InvalidArg("Could not get tile.")
         }
     }
 
@@ -74,7 +75,7 @@ class BinaryPuzzle(filePath: String?) {
                 if (child.getTile(r, col) == Symbol.Unset)
                     child.board[r][col] = value
             }
-            else -> throw Exception("Provide at least one tile.")
+            else -> throw InvalidArg("Provide at least one tile.")
         }
         return child
     }
