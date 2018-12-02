@@ -1,4 +1,4 @@
-package main.helpers
+package io.gitlab.ilevn.helpers
 
 enum class Symbol(val sym: Char) {
     One('1'),

@@ -1,8 +1,8 @@
-package main
+package io.gitlab.ilevn
 
-import main.methods.backtrack
-import main.methods.solve
-import main.methods.solver
+import io.gitlab.ilevn.methods.backtrack
+import io.gitlab.ilevn.methods.solve
+import io.gitlab.ilevn.methods.solver
 
 fun main(args: Array<String>) {
     print("Select puzzle to solve [examples/very_easy.bp]: ")

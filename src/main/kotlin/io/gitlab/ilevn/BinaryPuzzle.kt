@@ -1,6 +1,6 @@
-package main
+package io.gitlab.ilevn
 
-import main.helpers.Symbol
+import io.gitlab.ilevn.helpers.Symbol
 import java.io.File
 import java.io.FileNotFoundException
 import kotlin.system.exitProcess
